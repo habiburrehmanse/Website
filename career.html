@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+   <meta charset="utf-8">
+   <title>BridgePort Pizza</title>
+   <meta content="" name="description">
+   <meta content="" name="author">
+   <meta content="" name="keywords">
+   <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
+   
+   <!-- Bootstrap CSS -->
+   <link href="css/bootstrap.min.css" rel="stylesheet">
+   <!-- font awesome CSS -->
+   
+   <!-- fastresto CSS -->
+   <link href="css/animated-fastresto.css" rel="stylesheet">
+   <link href="css/fastresto-style.css" rel="stylesheet">
+   <link href="css/queries-fastresto.css" media="all" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	
+	<script type="text/javascript">
+	var restname;
+	var rest_contact_no;
+	var website_url;
+	var emailaddress;
+    var restaddress;
+	function getrestaurantdetails()
+{
+
+var emailclub = new Object();
+emailclub.label = $("#restaurant_label").val();
+
+var test=JSON.stringify(emailclub);
+
+
+ var settings = {
+  "async": false,
+  "crossDomain": true,
+  "url": "https://0xx1ihrhqg.execute-api.us-east-1.amazonaws.com/prod/RestaurantByLabelCafesquad",
+  "method": "POST",
+  "headers": {
+    'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
+   
+  },
+"data": test
+}
+
+$.ajax(settings).done(function (response) {
+
+  
+  
+	
+     restname=response.name;
+	 rest_contact_no=response.contact_no;
+	 emailaddress=response.email;
+	 website_url=response.siteurl;
+	 restaddress=response.address;
+ 
+   
+});
+
+
+  
+
+}
+	
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}	
+function createCORSRequest(method, url) {
+  var xhr = new XMLHttpRequest();
+  if ("withCredentials" in xhr) {
+    // Check if the XMLHttpRequest object has a "withCredentials" property.
+    // "withCredentials" only exists on XMLHTTPRequest2 objects.
+    xhr.open(method, url, true);
+  } else if (typeof XDomainRequest != "undefined") {
+    // Otherwise, check if XDomainRequest.
+    // XDomainRequest only exists in IE, and is IE's way of making CORS requests.
+    xhr = new XDomainRequest();
+    xhr.open(method, url);
+  } else {    // Otherwise, CORS is not supported by the browser.
+    xhr = null;  }  return xhr;}
+function makeRequest1()
+{      
+       getrestaurantdetails();
+	   var emailclub = new Object();
+   
+
+    	
+	emailclub.email = $('#email2').val();
+    emailclub.name = $('#first_name2').val();//+"-"+$('#comments').val();
+    emailclub.phone = $('#phone_no2').val();
+    emailclub.position = $('#Postion2').val();
+    emailclub.jobType = $('#People2').val();
+    emailclub.hourlyRate = $('#Hourlyrate2').val();
+	emailclub.date= $('#Date').val();
+	emailclub.resume = $('#Resume').val();
+    emailclub.restaurant_lable = $('#restaurant_label').val();
+	emailclub.candidatetype = $('#candidate_type').val();
+	 var test=JSON.stringify(emailclub);
+	
+var settings = {
+  "async": false,
+  "crossDomain": true,
+  "url": "https://bl9m5z7zpa.execute-api.us-east-2.amazonaws.com/prod/AddCareer",
+  "method": "POST",
+  "headers": {
+  'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
+    
+  }, 
+  "data": test
+  }
+  
+  $.ajax(settings).done(function (response) {
+  
+  console.log(response);
+  careeremailtoowner();
+});
+
+
+
+}
+</script>	
+<script>
+function careeremailtoowner(){
+
+var URL = 'https://0xx1ihrhqg.execute-api.us-east-1.amazonaws.com/prod/Career'
+ 
+
+  event.preventDefault()
+ 
+var data = {
+    name: $('#first_name2').val(),
+    email: $('#email2').val(),
+	phone: $('#phone_no2').val(),
+     Position: $('#Postion2').val(),
+    jobtype: $('#People2').val(),
+	hourlyrate: $('#Hourlyrate2').val(),
+	date: $('#Date').val(), 
+	resume: $('#Resume').val(),
+	recieveremail: emailaddress,
+	cc: $('#email2').val(),
+	customer: 'support@cafesquad.com',
+	restaurant_contactno:rest_contact_no,
+	website:website_url,
+	restaurant_address:restaddress,
+	restaurant_name:restname
+	
+  }
+ 
+  $.ajax({
+    type: 'POST',
+    url: URL,
+    dataType: 'json',
+    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+    data: JSON.stringify(data),
+    success: function () {
+	 location.href = "thankyou.html";
+      // clear form and show a success message
+    },
+    error: function () {
+      // show an error message
+    }
+ 
+})
+}
+</script>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-128566206-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-128566206-1');
+</script>
+
+
+</head>
+
+<body>
+
+   <!-- preloader -->
+   <div class="preloader">
+      <div class="mainpreloader"><span></span>
+      </div>
+   </div>
+   <!-- preloader end -->
+
+   <!-- website -->
+   <div id="wraperfastresto">
+
+      <!-- background -->
+      <div class="bgfastresto" style="background-image:url(img/3.jpeg); background-size: cover;"></div>
+      <div class="overlay-main"></div>
+      <!-- background end -->
+
+
+<script type="text/javascript" src="js/header.js"></script><script type="text/javascript" src="configuration.js"></script>
+
+      <!-- content -->
+      <div class="main-content">
+         <div class="container-fluid">
+            <!-- container -->
+
+            <!-- section begin -->
+            <section class="row" aria-label="section-heading">
+               <div class="col-md-12 center spacedown">
+                  <h2 data-time="600">Career</h2>
+                  <h4 class="latin-font color" data-time="800">Apply and Join Us </h4>
+                  <span class="devider-black" data-time="1000"></span>
+               </div>
+            </section>
+            <!-- section end -->
+
+            <!-- section begin -->
+            <section class="row spacedown" data-time="1300">
+               
+               <div class="col-md-12 h-about v-align bg-page col-xs-12">
+                  <div class="min-left p-30px">
+                     <h3 style="color: #000;">Career</h3>
+                     <h4 class="latin-font color">Fill the below form</h4>
+					 
+					  <div class="min-left p-30px">
+                    <form class="main-reservaton-form" name="validation" onsubmit="event.preventDefault();makeRequest1();">
+                        <div class="row">
+                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                                <label for="reservation_name"><i class="fa fa-user"></i></label>
+                                <input type="text" id="first_name2" placeholder="Your Name" name="first_name" >
+                            </div><br>
+                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                                <label for="reservation_email"><i class="fa fa-envelope-o"></i></label>
+                                <input type="text" name="email" id="email2" required  placeholder="Your Email">
+                            </div><br>
+							<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                                <label for="reservation_phone"><i class="fa fa-phone"></i></label>
+                                <input type="text" name="phone_no" id="phone_no2" placeholder="Phone No">
+                            </div><br>
+							<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                                <label for="reservation_date"><i class="fa fa-linux"></i></label>
+                               <input type="text" class="fix1 loyalclubs" name="Postion" id="Postion2" placeholder="Position" >
+                            </div><br>
+							<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                                <label for="reservation_person"><i class="fa fa-user-md"></i></label>
+                                <input type="text" name="People" id="People2" placeholder="Job Type">
+                            </div><br>
+							<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                                <label for="reservation_time"><i class="fa fa-clock-o"></i></label>
+                                <input type="text" name="Hourlyrate" id="Hourlyrate2" placeholder="Hourly Rate:">
+                            </div>
+                            
+                           
+                           
+                           
+                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                                <label for="reservation_message"><i class="fa fa-list-ol"></i></label>
+                                <textarea name="reservation_message" name="Resume" id="Resume" cols="10" rows="10" placeholder="Resume"></textarea>
+                            </div>
+							<label style="display: none;" class="centers">Enter a state/province:</label>
+							<input style="display: none;" align="right"  class="fix7" name="state" id="state" />
+								<input style="display: none;" type= "hidden"  name="restaurant_label" id="restaurant_label" value ="bridgeportpizza"/>
+							<input style="display: none;" type= "hidden"  name="candidate_type" id="candidate_type" value = "Restaurant" />
+
+							
+							<label style="display: none;" class="centers">Birthday:</label>
+							<input style="display: none;" type= "hidden"  name="candidate_type" id="candidate_type" value = "restaurant" />
+							<input style="display: none;" align="right"  class="fix8" type="date" name="birthday" id="birthday" />
+							<label style="display: none;" class="centers">Anniversary:</label>
+							<input  style="display: none;" align="right"  class="fix9"  type="date"name="anniversary" id="anniversary" />
+                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 text-center">
+                                <button type="submit" value="Submit" >APPLY</button>
+								</div>
+                        </div>
+                    </form>
+					</div>
+                  </div>
+               </div>
+            </section>
+            <!-- section end -->
+
+            
+         </div>
+         <!-- container end -->
+      </div>
+
+
+
+      
+      <!-- footer -->
+      
+
+<script type="text/javascript" src="js/footer.js"></script>
+
+   </div>
+   <!-- website end -->
+
+   <!-- Plugin JS -->
+   <script src="js/pluginsfastresto.js" type="text/javascript"></script>
+   <!-- fastresto JS -->
+   <script src="js/fastresto.js" type="text/javascript"></script>
+
+ <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+   <script type="text/javascript" src=" https://ajax.googleapis.com/ajax/libs/jquery/2.0.1/jquery.js"></script>
+<script type="text/javascript">
+	
+
+		   
+			function onclicktoogle(yehlo)
+			{
+		
+				
+				var classname = yehlo.getAttribute("href");
+
+				 var els = document.getElementsByClassName(classname);
+				   for(var i=0; i<els.length; ++i)
+				   {
+				      var s = els[i].style;
+			
+				      s.display = s.display==='none' ? 'block' : 'none';
+				   };
+			}
+		
+		</script>
+
+    <script type="text/javascript">
+        function cookieExists(name) {
+            var nameToFind = name + "=";
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                if (cookies[i].trim().indexOf(nameToFind) === 0) return true; 
+            }
+            return false;
+        }
+        if (!cookieExists("timeZoneOffset")) {
+            var now = new Date();
+            var timeZoneOffset = -now.getTimezoneOffset();  // in minutes
+            now.setTime(now.getTime() + 240 * 60 * 60 * 1000); // set expiry
+            document.cookie = "timeZoneOffset=" + timeZoneOffset.toString() + ";expires=" + now.toGMTString() + ";path=/;" + document.cookie;
+            
+            // window.location.reload();
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "url": "https://www.dennys.com/",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://www.dennys.com/search/?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+            }
+        }
+    </script>
+    <script language="JavaScript1.2">
+
+			//Advanced Email Check credit-
+			//By JavaScript Kit (https://www.javascriptkit.com)
+			//Over 200+ free scripts here!
+
+			var testresults
+			function checkemail(){
+			console.log("check mail")
+			var str=document.validation.email.value
+			var str1=document.validation.phone_no.value
+			var filter=/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i
+			 var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
+			if (filter.test(str) && phoneno.test(str1))
+			{
+		
+				
+				testresults=true
+			}
+		
+			else{
+			console.log("checElse")
+			//	document.getElementById('message').style.display = 'inline';
+
+			  var phonevalidationtext = document.getElementById("phonevalidationtext")
+     phonevalidationtext.innerHTML="Use correct format for the Phone Number i.e. XXX-XXX-XXXX";
+   
+			testresults=false
+			}
+			return (testresults)
+			}
+			
+			</script>
+
+			<script>
+			function checkbae(){
+		
+			if (document.layers||document.getElementById||document.all)
+			return checkemail()
+			else
+			return true
+			}
+			
+			
+			</script>
+
+
+	<script>
+		var getElementsByClassName=function(a,b,c){if(document.getElementsByClassName){getElementsByClassName=function(a,b,c){c=c||document;var d=c.getElementsByClassName(a),e=b?new RegExp("\\b"+b+"\\b","i"):null,f=[],g;for(var h=0,i=d.length;h<i;h+=1){g=d[h];if(!e||e.test(g.nodeName)){f.push(g)}}return f}}else if(document.evaluate){getElementsByClassName=function(a,b,c){b=b||"*";c=c||document;var d=a.split(" "),e="",f="https://www.w3.org/1999/xhtml",g=document.documentElement.namespaceURI===f?f:null,h=[],i,j;for(var k=0,l=d.length;k<l;k+=1){e+="[contains(concat(' ', @class, ' '), ' "+d[k]+" ')]"}try{i=document.evaluate(".//"+b+e,c,g,0,null)}catch(m){i=document.evaluate(".//"+b+e,c,null,0,null)}while(j=i.iterateNext()){h.push(j)}return h}}else{getElementsByClassName=function(a,b,c){b=b||"*";c=c||document;var d=a.split(" "),e=[],f=b==="*"&&c.all?c.all:c.getElementsByTagName(b),g,h=[],i;for(var j=0,k=d.length;j<k;j+=1){e.push(new RegExp("(^|\\s)"+d[j]+"(\\s|$)"))}for(var l=0,m=f.length;l<m;l+=1){g=f[l];i=false;for(var n=0,o=e.length;n<o;n+=1){i=e[n].test(g.className);if(!i){break}}if(i){h.push(g)}}return h}}return getElementsByClassName(a,b,c)},
+			dropdowns = getElementsByClassName( 'dropdown-menu' );
+		for ( i=0; i<dropdowns.length; i++ )
+			dropdowns[i].onchange = function(){ if ( this.value != '' ) window.location.href = this.value; }
+	</script>
+
+
+
+
+<div style="text-align:center;">
+    <span class='right'><br/>
+    <p>Find Our Special Deals At <a class='bistroservice' href='https://Bitecart.com/'>Bitecart.com</a>
+    <br>On Demand Help For Your Tables By <a class='bistroservice' href='https://www.cafesquad.com/'>CafeSquad</a>
+    </p></span></div>
+</body> 
+</html>
